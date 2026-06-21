@@ -1,10 +1,10 @@
 {
-  "name": "mastra-eval-marketplace",
+  "name": "ibras-ai-agent",
   "owner": {
     "name": "volfadar",
     "email": "volfadar@users.noreply.github.com"
   },
-  "description": "A Claude Code plugin marketplace hosting the mastra-evals skill — design and generate a complete Mastra AI evaluation system for any project.",
+  "description": "A Claude Code plugin marketplace — a growing collection of plugins/skills for building and evaluating AI agents. Currently ships mastra-evals.",
   "plugins": [
     {
       "name": "mastra-evals",
