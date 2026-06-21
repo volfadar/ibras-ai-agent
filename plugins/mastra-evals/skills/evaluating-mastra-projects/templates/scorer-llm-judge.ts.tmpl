@@ -1,0 +1,42 @@
+// Template: LLM-as-judge scorer (subjective criteria: tone, toxicity, faithfulness, etc.).
+// Fill {{...}} from project_profile.json. See references/mastra-evals-api.md §3.
+//
+// Uses a SMALL/CHEAP judge model. Returns { score, reason }. Prefer binary 1/0; always emit a reason.
+import { createScorer } from '@mastra/core/evals'
+import { getAssistantMessageFromRunOutput } from '@mastra/evals/scorers/utils'
+import { z } from 'zod'
+// Resolve a model instance for the judge (provider depends on your project):
+//   e.g. import { openai } from '@ai-sdk/openai'  ->  const judge = openai('{{judgeModel}}')
+//   or a Mastra Cloud gateway string: const judge = '{{judgeModel}}'
+import { {{modelImport}} } from '{{modelPackage}}'
+const judgeModel = {{modelFactory}}
+
+export const {{scorerId}} = createScorer({
+  id: '{{scorerId}}',
+  name: '{{scorerName}}',
+  description: '{{scorerDescription}}',
+  type: 'agent',
+  judge: {
+    model: judgeModel,
+    instructions: `{{judgeInstructions}}`,
+    // jsonPromptInjection: true,  // enable for models without native structured output (e.g. some Groq Llama)
+  },
+})
+  .preprocess(({ run }) => ({
+    text: getAssistantMessageFromRunOutput(run.output) ?? '',
+  }))
+  .analyze({
+    description: '{{analyzeDescription}}',
+    outputSchema: z.object({
+      matchesCriterion: z.boolean(),
+      explanation: z.string(),
+    }),
+    createPrompt: ({ run }) => {
+      const text = getAssistantMessageFromRunOutput(run.output) ?? ''
+      return `{{judgePrompt}}\n\nReply under test:\n"""${text}"""`
+    },
+  })
+  // `results` is the ACCUMULATED step results; the analyze output lives under
+  // `analyzeStepResult` (each step's result key is `<stepName>StepResult`).
+  .generateScore(({ results }) => (results?.analyzeStepResult?.matchesCriterion ? 1 : 0))
+  .generateReason(({ results }) => results?.analyzeStepResult?.explanation ?? '')

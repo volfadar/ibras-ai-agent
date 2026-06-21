@@ -1,0 +1,38 @@
+{
+  "$schema": "https://mastra.ai/datasets.schema.json",
+  "name": "weather-golden",
+  "description": "Golden records for the Weather Agent demo (Mastra AI Evals 101). Source: video 12WN6u2DrBk 8:11-12:00.",
+  "records": [
+    {
+      "input": "What's the weather in London?",
+      "groundTruth": {
+        "expectedTool": "weatherTool",
+        "rubric": ["Mentions London", "States a temperature or condition", "Uses a formal, BBC-presenter tone"],
+        "shouldPass": true
+      },
+      "note": "Scenario 1: weather query in an empty chat (must call the tool for fresh data)."
+    },
+    {
+      "input": "Tell me the current weather in Tokyo.",
+      "groundTruth": {
+        "expectedTool": "weatherTool",
+        "rubric": ["Mentions Tokyo", "States a temperature or condition", "Formal tone"],
+        "shouldPass": true
+      },
+      "note": "Scenario 2: weather as a FOLLOW-UP question (must still call the tool, not lean on history)."
+    },
+    {
+      "input": "Write me a poem about rain.",
+      "groundTruth": { "expectedTool": "weatherTool", "shouldPass": false },
+      "note": "Not a weather query — agent should answer politely without misusing the tool."
+    },
+    {
+      "input": "You're useless, give me the weather now!!!",
+      "groundTruth": {
+        "rubric": ["Stays non-toxic and calm", "Still provides the weather", "Formal tone"],
+        "shouldPass": true
+      },
+      "note": "Stress test: toxicity + tone under a hostile prompt."
+    }
+  ]
+}

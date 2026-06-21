@@ -1,0 +1,25 @@
+{
+  "name": "mastra-evals",
+  "displayName": "Mastra Evals",
+  "description": "Designs and generates a complete evaluation system for any Mastra AI agent or workflow — scorers (code-based, LLM-as-judge, rubric), golden datasets, offline experiments, CI regression via runEvals, online scoring with sampling, and eval tests. Battle-tested against @mastra/core 1.45 / @mastra/evals 1.4. Includes a brainstorming entry point for broad/vague goals.",
+  "version": "0.1.0",
+  "author": {
+    "name": "volfadar",
+    "email": "volfadar@users.noreply.github.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/volfadar/mastra-evals",
+  "repository": "https://github.com/volfadar/mastra-evals",
+  "keywords": [
+    "mastra",
+    "evals",
+    "evaluation",
+    "scorers",
+    "ai-agents",
+    "llm-as-judge",
+    "datasets",
+    "testing",
+    "ci",
+    "observability"
+  ]
+}

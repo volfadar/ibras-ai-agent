@@ -1,0 +1,41 @@
+// Template: vitest eval harness — deterministic scorer assertion on a known trace.
+// Uses Mastra's REAL test-trace builders (no model calls). Run: `vitest run`.
+// See references/mastra-evals-api.md §4/§11 and references/artifact-spec.md.
+import { describe, it, expect } from 'vitest'
+import { {{scorerIds}} } from '../src/scorers/{{scorerFile}}'
+import {
+  createAgentTestRun,
+  createTestMessage,
+  createToolInvocation,
+} from '@mastra/evals/scorers/utils'
+
+// A known-good trace: the expected tool was called. (For a known-bad case, omit
+// the toolInvocation or use a wrong toolName and expect score 0.)
+const goodTrace = createAgentTestRun({
+  inputMessages: [createTestMessage({ content: '{{exampleInput}}', role: 'user' })],
+  output: [
+    createTestMessage({
+      content: '…expected assistant reply…',
+      role: 'assistant',
+      toolInvocations: [
+        createToolInvocation({
+          toolCallId: 't1',
+          toolName: '{{expectedTool}}',
+          args: {},
+          result: {},
+          state: 'result',
+        }),
+      ],
+    }),
+  ],
+})
+
+describe('{{scorerId}} (code-based, deterministic)', () => {
+  it('scores 1 when the expected behavior is present', async () => {
+    const result = await {{scorerId}}.run(goodTrace as any)
+    expect(result.score).toBe(1)
+  })
+})
+
+// NOTE: prebuilt CODE scorers may not emit a `reason`; only LLM-judge scorers
+// reliably do. For judge scorers, build the trace from a real agent run instead.

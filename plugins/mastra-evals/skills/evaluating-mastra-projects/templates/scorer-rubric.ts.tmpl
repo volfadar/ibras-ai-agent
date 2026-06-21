@@ -1,0 +1,16 @@
+// Template: rubric scorer — binary "task complete" gate.
+// Returns 1 only when EVERY required criterion is satisfied; reason lists each.
+// Fill {{...}} from project_profile.json. See references/scorer-selection.md.
+import { createRubricScorer } from '@mastra/evals/scorers/prebuilt'
+import { {{modelImport}} } from '{{modelPackage}}'
+const judgeModel = {{modelFactory}}
+
+export const {{scorerId}} = createRubricScorer({
+  model: judgeModel,
+  criteria: [
+    // One string per required criterion. Keep each concrete and testable.
+    '{{criterion1}}',
+    '{{criterion2}}',
+    // '{{criterion3}}',
+  ],
+})

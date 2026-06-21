@@ -1,0 +1,40 @@
+{
+  "project_root": "examples/weather-agent",
+  "default_judge_model": "openai/gpt-4o-mini",
+  "summary": { "agents": 1, "tools": 1, "evaluable": true },
+  "tools": [
+    {
+      "name": "weatherTool",
+      "id": "weatherTool",
+      "description": "Get the current weather for a city.",
+      "source": "tools/weather-tool.ts"
+    }
+  ],
+  "agents": [
+    {
+      "id": "weather-agent",
+      "name": "Weather Agent",
+      "instructions": "You are a weather assistant. Answer in the formal, polished, restrained style of a BBC news presenter.",
+      "model": "openai/gpt-4o",
+      "tools": ["weatherTool"],
+      "source": "online-scoring/weather-agent.ts"
+    }
+  ],
+  "scorer_suggestions": [
+    {
+      "type": "code",
+      "factory": "createToolCallAccuracyScorerCode",
+      "id": "weatherTool-tool-call-accuracy",
+      "config": { "expectedTool": "weatherTool", "strictMode": false },
+      "rationale": "Guards that the agent calls weatherTool when expected.",
+      "source_tool": "weatherTool"
+    },
+    {
+      "type": "llm-judge",
+      "id": "tone-scorer",
+      "criterion": "formal tone",
+      "rationale": "Inferred from agent instruction keyword 'formal'.",
+      "source_agent": "weather-agent"
+    }
+  ]
+}

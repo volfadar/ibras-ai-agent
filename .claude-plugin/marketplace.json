@@ -1,0 +1,16 @@
+{
+  "name": "mastra-eval-marketplace",
+  "owner": {
+    "name": "volfadar",
+    "email": "volfadar@users.noreply.github.com"
+  },
+  "description": "A Claude Code plugin marketplace hosting the mastra-evals skill — design and generate a complete Mastra AI evaluation system for any project.",
+  "plugins": [
+    {
+      "name": "mastra-evals",
+      "source": "./plugins/mastra-evals",
+      "description": "Project-driven Mastra eval builder: scorers (code + LLM-judge + rubric), golden datasets, CI regression via runEvals, online scoring with sampling, eval tests, and a brainstorming entry point. Battle-tested against @mastra/core 1.45.",
+      "version": "0.1.0"
+    }
+  ]
+}

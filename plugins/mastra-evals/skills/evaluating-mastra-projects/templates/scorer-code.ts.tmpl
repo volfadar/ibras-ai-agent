@@ -1,0 +1,13 @@
+// Template: code-based scorer (deterministic, free, CI-friendly).
+// Fill {{...}} from project_profile.json. See references/scorer-selection.md.
+//
+// Use when the behavior is checkable from the trace alone — e.g. "did the agent
+// call the right tool?". Runs against the run trace; returns { score, reason }.
+import { createToolCallAccuracyScorerCode } from '@mastra/evals/scorers/prebuilt'
+
+// expectedTool comes from the profile (the tool the agent should call).
+// strictMode: false = partial credit; true = exact match only.
+export const {{scorerId}} = createToolCallAccuracyScorerCode({
+  expectedTool: '{{expectedTool}}',
+  strictMode: false,
+})

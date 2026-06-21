@@ -1,0 +1,19 @@
+// Template: agent wired with ONLINE (production) scorers at sampling rates.
+// Current Mastra API: sampling: { type: 'ratio', rate }.
+// Cheap scorers → high rate; expensive judges → low rate.
+// See references/mastra-evals-api.md §10 and references/eval-methodology.md §9.
+import { Agent } from '@mastra/core/agent'
+import { {{scorerIds}} } from '../src/scorers/{{scorerFile}}'
+
+export const {{agentName}} = new Agent({
+  id: '{{agentId}}',
+  name: '{{agentNameLabel}}',
+  instructions: `{{instructions}}`,
+  model: {{agentModel}},
+  tools: { {{toolKeys}} },
+  scorers: {
+    '{{cheapScorerId}}': { scorer: {{cheapScorerId}}, sampling: { type: 'ratio', rate: 1.0 } },     // deterministic → every request
+    '{{midScorerId}}': { scorer: {{midScorerId}}, sampling: { type: 'ratio', rate: 0.5 } },         // moderate-cost judge
+    '{{expensiveScorerId}}': { scorer: {{expensiveScorerId}}, sampling: { type: 'ratio', rate: 0.25 } }, // expensive judge → sample
+  },
+})

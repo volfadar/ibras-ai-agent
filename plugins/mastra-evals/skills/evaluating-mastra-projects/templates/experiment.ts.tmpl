@@ -1,0 +1,24 @@
+// Template: offline experiment — target × golden dataset × scorers → summary.
+// Uses dataset.startExperiment() (current Mastra API). Run as a regression suite.
+// See references/mastra-evals-api.md §8 and references/eval-methodology.md §7.
+//
+// Register your dataset + scorers on the Mastra instance first (see §6 of the API ref).
+import { mastra } from '../src/mastra'   // your `new Mastra({ agents, scorers, ... })`
+
+const dataset = await mastra.datasets.get({ id: '{{datasetId}}' })
+
+export async function run{{experimentName}}() {
+  const summary = await dataset.startExperiment({
+    name: '{{experimentName}}',
+    targetType: 'agent',          // or 'workflow'
+    targetId: '{{agentId}}',
+    scorers: [{{scorerIds}}],     // registered scorer IDs (strings) OR scorer instances
+  })
+  // summary.status: 'completed' | 'failed'
+  // summary.succeededCount / summary.failedCount
+  // Interactive equivalent: Studio → Datasets → Run Experiment.
+  // A drop in any per-scorer average vs your baseline = quality regression → fail CI.
+  return summary
+}
+
+run{{experimentName}}().then((s) => console.log(JSON.stringify(s, null, 2)))

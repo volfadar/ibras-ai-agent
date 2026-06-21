@@ -1,0 +1,28 @@
+# Secrets / env — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+id_rsa
+id_ed25519
+
+# Dependencies / build
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
+
+# Claude Code local consumer state (this repo is a marketplace, not a consumer)
+.claude/

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://mastra.ai/datasets.schema.json",
+  "name": "{{datasetName}}",
+  "description": "{{datasetDescription}}",
+  "records": [
+    {
+      "input": "{{exampleInput}}",
+      "groundTruth": {
+        "expectedTool": "{{expectedTool}}",
+        "rubric": ["{{criterion1}}", "{{criterion2}}"],
+        "shouldPass": true
+      }
+    },
+    {
+      "input": "{{negativeExample}}",
+      "groundTruth": { "expectedTool": "{{unexpectedTool}}", "shouldPass": false },
+      "note": "Agent should NOT call {{unexpectedTool}} for this input"
+    }
+  ]
+}
